@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -16,203 +17,206 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="contact-page-container">
+    <div className="contact-page">
       <style>{`
-        /* General Body Styles */
-        body {
-          font-family: 'Arial', sans-serif;
-          background-color: #f7fafc;
-          color: #4a5568;
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
-        /* Contact Page Container */
-        .contact-page-container {
+        /* Page Layout */
+        .contact-page {
           display: flex;
           flex-direction: column;
           min-height: 100vh;
-          background-color: #f7fafc;
+          background: linear-gradient(to right, #0f0f0f, #1a1a1a);
+          color: white;
+          font-family: 'Poppins', sans-serif;
         }
 
-        /* Navbar Styles */
-        .navbar {
-          background-color: #2f855a;
-          color: #fff;
-          padding: 15px 0;
-          text-align: center;
-          font-size: 1.25rem;
-          font-weight: bold;
+        /* Navbar Styling */
+        .navbar-container {
+          margin-bottom: 20px;
         }
 
-        /* Footer Styles */
-        .footer {
-          background-color: #2f855a;
-          color: #fff;
-          text-align: center;
-          padding: 10px 0;
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-        }
-
-        /* Heading Styles */
-        .contact-heading {
-          font-size: 2rem;
-          color: #2f855a;
-          font-weight: bold;
-          text-align: center;
-          margin-bottom: 1rem;
-        }
-
-        /* Subheading for contact form */
-        .contact-subheading {
-          font-size: 1.125rem;
-          color: #4a5568;
-          text-align: center;
-          margin-bottom: 1.5rem;
-        }
-
-        /* Form Container */
-        .contact-form-container {
+        /* Main Content */
+        .content {
+          flex: 1;
           display: flex;
           justify-content: center;
-          margin: 0 auto;
-          padding: 1rem;
+          align-items: center;
+          padding: 40px;
         }
 
-        /* Form Style (Compact version) */
-        .contact-form {
-          background-color: white;
-          border-radius: 1rem;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-          padding: 2.5rem;
-          max-width: 400px; /* Reduced width */
+        /* Contact Form Card */
+        .contact-form-container {
+          background: rgba(255, 255, 255, 0.1);
+          padding: 30px;
+          border-radius: 15px;
+          box-shadow: 0 8px 16px rgba(0, 255, 127, 0.3);
+          max-width: 500px;
           width: 100%;
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          text-align: center;
+          animation: fadeIn 1s ease-in-out;
         }
 
         /* Input Fields */
         .form-input {
           width: 100%;
-          padding: 0.75rem; /* Reduced padding */
-          border-radius: 0.5rem;
-          border: 2px solid #e2e8f0;
-          font-size: 1rem;
-          margin-bottom: 1rem; /* Reduced bottom margin */
-          transition: border-color 0.3s ease;
-        }
-
-        /* Focus Styles for Inputs */
-        .form-input:focus {
-          outline: none;
-          border-color: #38a169;
-          box-shadow: 0 0 0 2px rgba(72, 161, 105, 0.5);
-        }
-
-        /* Submit Button Styles */
-        .submit-button {
-          width: 100%;
-          padding: 0.75rem; /* Reduced padding */
-          background-color: #38a169;
-          color: white;
+          padding: 12px;
           border: none;
-          border-radius: 0.5rem;
-          font-size: 1.125rem;
+          border-radius: 8px;
+          font-size: 16px;
+          margin-bottom: 15px;
+          background: rgba(255, 255, 255, 0.2);
+          color: white;
+          outline: none;
+          transition: all 0.3s ease-in-out;
+        }
+
+        .form-input::placeholder {
+          color: #ccc;
+        }
+
+        .form-input:focus {
+          background: rgba(255, 255, 255, 0.3);
+          box-shadow: 0 0 8px rgba(0, 255, 127, 0.5);
+        }
+
+        /* Submit Button */
+        .submit-button {
+          display: block;
+          width: 80%;
+          padding: 12px;
+          margin: 0 auto;
+          background: #00ff7f;
+          color: black;
+          font-size: 18px;
           font-weight: bold;
-          transition: background-color 0.3s ease;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-transform: uppercase;
+          box-shadow: 0 6px 12px rgba(0, 255, 127, 0.4);
         }
 
         .submit-button:hover {
-          background-color: #2f855a;
+          background: #00cc66;
+          transform: scale(1.05);
         }
 
         /* Success Message */
-        .success-message {
+        .success-container {
           text-align: center;
-          color: #38a169;
-          font-size: 1.25rem;
-          margin-top: 1.5rem;
+          padding: 50px;
+          max-width: 500px;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 15px;
+          backdrop-filter: blur(8px);
+          box-shadow: 0 6px 12px rgba(0, 255, 127, 0.3);
+          animation: fadeIn 1s ease-in-out;
         }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-          .contact-form-container {
-            padding: 1.5rem;
-          }
+        .success-icon {
+          font-size: 50px;
+          color: #00ff7f;
+          margin-bottom: 20px;
+        }
 
-          .contact-form {
-            padding: 1.25rem; /* Reduced padding */
-          }
+        .success-message {
+          font-size: 20px;
+          font-weight: bold;
+          color: white;
+          margin-bottom: 15px;
+        }
 
-          .form-input {
-            padding: 0.75rem;
-            margin-bottom: 1.25rem;
-          }
+        .back-home {
+          display: inline-block;
+          background: #007bff;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 6px;
+          text-decoration: none;
+          font-size: 16px;
+          font-weight: bold;
+          transition: background 0.3s ease;
+        }
 
-          .submit-button {
-            padding: 0.75rem;
+        .back-home:hover {
+          background: #0056b3;
+        }
+
+        /* Footer */
+        .footer {
+          background: #2f855a;
+          color: white;
+          text-align: center;
+          padding: 15px 0;
+          width: 100%;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
           }
         }
       `}</style>
-      
-      <Navbar />
-      <main className="flex-grow p-8">
-        <h1 className="contact-heading">Contact Us</h1>
-        <p className="contact-subheading">
-          We’re here to help. Reach out to us for any inquiries or support.
-        </p>
 
+      <div className="navbar-container">
+        <Navbar />
+      </div>
+
+      <div className="content">
         {submitted ? (
-          <p className="success-message">
-            Thank you for your message! We will get back to you soon.
-          </p>
+          <div className="success-container">
+            <div className="success-icon">✅</div>
+            <div className="success-message">Message sent successfully!</div>
+            <p>We'll get back to you shortly.</p>
+            <Link to="/" className="back-home">Return to Home</Link>
+          </div>
         ) : (
           <div className="contact-form-container">
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <div className="mb-6">
-                <label className="block text-lg font-medium text-gray-800 mb-2">Name:</label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="form-input"
-                />
-              </div>
+            <h2>Contact Us</h2>
+            <p>We're here to help. Send us a message.</p>
 
-              <div className="mb-6">
-                <label className="block text-lg font-medium text-gray-800 mb-2">Email:</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="form-input"
-                />
-              </div>
-
-              <div className="mb-6">
-                <label className="block text-lg font-medium text-gray-800 mb-2">Message:</label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows="4" /* Reduced number of rows */
-                  className="form-input"
-                ></textarea>
-              </div>
-
-              <button type="submit" className="submit-button">
-                Send Message
-              </button>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+                className="form-input"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="form-input"
+              />
+              <textarea
+                name="message"
+                placeholder="Your Message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+                rows="4"
+                className="form-input"
+              ></textarea>
+              <button type="submit" className="submit-button">Send Message</button>
             </form>
           </div>
         )}
-      </main>
+      </div>
+
       <Footer />
     </div>
   );
